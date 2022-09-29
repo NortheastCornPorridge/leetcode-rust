@@ -1,4 +1,4 @@
-
+#![allow(unused)]
 pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>>
 {
     let mut results: Vec<Vec<i32>> = Vec::new();
@@ -10,7 +10,7 @@ pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>>
                    &nums,
                    &mut used);
 
-    return results;
+    results
 }
 
 fn do_permutation(results: &mut Vec<Vec<i32>>,
@@ -26,7 +26,7 @@ fn do_permutation(results: &mut Vec<Vec<i32>>,
     }
 
     for (idx, it_n) in nums.iter().enumerate() {
-        if used[idx] == true {
+        if used[idx] {
             continue;
         }
         track.push(*it_n);
@@ -36,4 +36,17 @@ fn do_permutation(results: &mut Vec<Vec<i32>>,
         used[idx] = false;
     }
 
+}
+
+#[cfg(test)]
+mod permute_tests {
+
+    #[test]
+    fn permute_works() {
+        use super::*;
+
+        let re = permute(vec![1,2,3]);
+
+        dbg!(re);
+    }
 }
