@@ -3,8 +3,26 @@ use std::collections::HashMap;
 struct Solution;
 impl Solution {
     pub fn can_finish(num_courses: i32, prerequisites: Vec<Vec<i32>>) -> bool {
-        let graph = Solution::build_graph(&prerequisites);
+        let graph = Self::build_graph(&prerequisites);
 
+        let mut visited: Vec<bool> = vec![false; num_courses as usize];
+        let mut on_path: Vec<bool> = vec![false; num_courses as usize];
+
+
+        Self::do_can_finish(0, &graph, &mut visited, &mut on_path)
+    }
+
+    fn do_can_finish(current: i32,
+                     graph: &HashMap<i32, Vec<i32>>, 
+                     visited: &mut Vec<bool>, 
+                     onPath: &mut Vec<bool>) -> bool 
+    {
+
+        if visited[current] {} 
+
+        if let Some(neighbours) = graph.get(&current) {
+
+        } else {}
 
         false
     }
