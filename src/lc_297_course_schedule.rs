@@ -7,24 +7,38 @@ impl Solution {
 
         let mut visited: Vec<bool> = vec![false; num_courses as usize];
         let mut on_path: Vec<bool> = vec![false; num_courses as usize];
-
-
-        Self::do_can_finish(0, &graph, &mut visited, &mut on_path)
+        let mut has_cycle: bool = false;
+        for c in graph.keys() {
+            Self::do_can_finish(*c, &mut has_cycle, &graph, &mut visited, &mut on_path);
+        }
+        !has_cycle
     }
 
     fn do_can_finish(current: i32,
-                     graph: &HashMap<i32, Vec<i32>>, 
-                     visited: &mut Vec<bool>, 
-                     onPath: &mut Vec<bool>) -> bool 
+                     has_cycle: &mut bool,
+                     graph: &HashMap<i32, Vec<i32>>,
+                     visited: &mut Vec<bool>,
+                     on_path: &mut Vec<bool>)
     {
 
-        if visited[current] {} 
+        if on_path[current as usize] {
+            *has_cycle = true;
+            return
+        }
 
+        if visited[current as usize]  || *has_cycle {
+            return
+        }
+
+        visited[current as usize] = true;
+        on_path[current as usize] = true;
         if let Some(neighbours) = graph.get(&current) {
+            for n in neighbours {
+                Self::do_can_finish(*n, has_cycle, graph, visited, on_path);
+            }
+        }
 
-        } else {}
-
-        false
+        on_path[current as usize] = false;
     }
 
     fn build_graph(prerequisites: &Vec<Vec<i32>>) -> HashMap<i32, Vec<i32>> {
@@ -66,5 +80,26 @@ mod course_schedule_one_test {
         ];
         let graph = Solution::build_graph(&prereq);
         dbg!(graph);
+    }
+    #[test]
+    fn test_graph_2() {
+        use super::*;
+        let prereq = vec![
+            vec![1, 0],
+            vec![0, 1],
+        ];
+        let graph = Solution::build_graph(&prereq);
+        dbg!(graph);
+    }
+
+    #[test]
+    fn test_func() {
+        use super::*;
+        let prereq = vec![
+            vec![1, 0],
+            vec![0, 1],
+        ];
+
+        dbg!(Solution::can_finish(2, prereq));
     }
 }
